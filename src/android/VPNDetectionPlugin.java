@@ -60,7 +60,7 @@ public class VPNDetectionPlugin extends CordovaPlugin {
             List<NetworkInterface> networkInterfaces = java.util.Collections.list( java.net.NetworkInterface.getNetworkInterfaces());
             for(NetworkInterface networkInterface: networkInterfaces)
             {
-                var name = networkInterface.getName();
+                String name = networkInterface.getName();
                 if(name.equals("tun0") || name.equals("ppp0") || name.equals("utun") || name.equals("ipsec"))
                     return true;
             }
