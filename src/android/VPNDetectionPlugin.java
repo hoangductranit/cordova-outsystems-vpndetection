@@ -39,10 +39,10 @@ public class VPNDetectionPlugin extends CordovaPlugin {
         try{
                 ConnectivityManager cm = (ConnectivityManager)cordova.getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
             Network[] networks = cm.getAllNetworks();
-        
-            for(int i = 0; i < networks.length; i++) {
-                NetworkCapabilities caps = cm.getNetworkCapabilities(networks[i]);
-                if (caps.hasTransport(NetworkCapabilities.TRANSPORT_VPN)){
+
+            for (Network network : networks) {
+                NetworkCapabilities caps = cm.getNetworkCapabilities(network);
+                if (caps.hasTransport(NetworkCapabilities.TRANSPORT_VPN)) {
                     return true;
                 }
             }
@@ -56,11 +56,12 @@ public class VPNDetectionPlugin extends CordovaPlugin {
     private boolean  isVPNFromInterface()
     {
         try {
-            List<String> networkInterfaces = java.util.Collections.list(java.net.NetworkInterface.getNetworkInterfaces());
-            for (String iface : networkInterfaces) {
-                if (iface.equals("tun0") || iface.equals("ppp0")) {
-                    return true; // VPN interface detected
-                }
+            var networkInterfaces = java.util.Collections.list( java.net.NetworkInterface.getNetworkInterfaces());
+            for(var networkInterface: networkInterfaces)
+            {
+                var name = networkInterface.getName();
+                if(name.equals("tun0") || name.equals("ppp0") || name.equals("utun") || name.equals("ipsec"))
+                    return true;
             }
         } catch (Exception e) {
             e.printStackTrace();
