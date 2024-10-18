@@ -13,6 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
+import java.net.NetworkInterface;
 import java.util.List;
 
 /**
@@ -56,8 +57,8 @@ public class VPNDetectionPlugin extends CordovaPlugin {
     private boolean  isVPNFromInterface()
     {
         try {
-            var networkInterfaces = java.util.Collections.list( java.net.NetworkInterface.getNetworkInterfaces());
-            for(var networkInterface: networkInterfaces)
+            List<NetworkInterface> networkInterfaces = java.util.Collections.list( java.net.NetworkInterface.getNetworkInterfaces());
+            for(NetworkInterface networkInterface: networkInterfaces)
             {
                 var name = networkInterface.getName();
                 if(name.equals("tun0") || name.equals("ppp0") || name.equals("utun") || name.equals("ipsec"))
